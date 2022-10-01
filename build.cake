@@ -1,3 +1,4 @@
+#nullable enable
 #addin nuget:?package=Cake.Git&version=2.0.0
 
 using System.Text.RegularExpressions;
@@ -5,8 +6,6 @@ using System.Text.RegularExpressions;
 var target        = Argument("target", "Test");
 var configuration = Argument("configuration", "Release");
 var slnPath       = "./src/FsDistanceField.sln";
-// TODO: How to not hard code the version but actually publish with a new version?
-var packPath      = "./src/FsDistanceField/nupkg/FsDistanceField.0.0.2.nupkg";
 
 var nugetApi      = "https://api.nuget.org/v3/index.json";
 var nugetApiKey   = EnvironmentVariable("NUGET_API_KEY");
@@ -14,11 +13,46 @@ var nugetApiKey   = EnvironmentVariable("NUGET_API_KEY");
 // TASKS
 //////////////////////////////////////////////////////////////////////
 
+record BuildData(
+        string? Version
+    );
+
+Setup(ctx =>
+    {
+        var tip = GitLogTip(".");
+        var tags = GitTags(".", true);
+        var tipTag = tags
+            .FirstOrDefault(tag => tag.Target.Sha == tip.Sha)
+            ;
+        string? version = null;
+
+        if (tipTag is not null)
+        {
+            var tagName = tipTag.FriendlyName;
+            var match   = Regex.Match(tagName, @"^v(?<version>\d+\.\d+\.\d+)$");
+            if (match.Success)
+            {
+                version = match.Groups["version"].Value;
+                Information($"Tip is tagged with version: {version}");
+            }
+            else
+            {
+                Warning($"Tip is tagged, but the tag doesn't match the version schema: {tagName}");
+            }
+        }
+        else
+        {
+            Information("Tip is not tagged with version");
+        }
+
+        return new BuildData(version);
+    });
+
 Task("Clean")
     .WithCriteria(c => HasArgument("rebuild"))
     .Does(() =>
 {
-    DotNetClean(slnPath, new DotNetCleanSettings
+    DotNetClean(slnPath, new()
     {
         Configuration = configuration,
     });
@@ -28,7 +62,7 @@ Task("Build")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    DotNetBuild(slnPath, new DotNetBuildSettings
+    DotNetBuild(slnPath, new()
     {
         Configuration = configuration,
     });
@@ -38,7 +72,7 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(() =>
 {
-    DotNetTest(slnPath, new DotNetTestSettings
+    DotNetTest(slnPath, new()
     {
         Configuration = configuration,
         NoBuild       = true,
@@ -47,55 +81,40 @@ Task("Test")
 });
 
 Task("Pack")
+    .WithCriteria<BuildData>((ctx, bd) => bd.Version is not null)
     .IsDependentOn("Test")
-    .Does(() =>
+    .Does<BuildData>((ctx, bd) =>
 {
-    DotNetPack(slnPath, new DotNetPackSettings
+    var bs = new DotNetMSBuildSettings()
+        .SetVersion(bd.Version)
+        ;
+
+    DotNetPack(slnPath, new()
     {
-        Configuration = configuration,
-        NoBuild       = true,
-        NoRestore     = true,
+        Configuration   = configuration,
+        NoBuild         = true,
+        NoRestore       = true,
+        MSBuildSettings = bs
     });
 });
 
 Task("PublishToNuGet")
+    .WithCriteria<BuildData>((ctx, bd) => bd.Version is not null)
     .IsDependentOn("Pack")
-    .Does(() =>
+    .Does<BuildData>((ctx, bd) =>
 {
-    DotNetNuGetPush(packPath, new DotNetNuGetPushSettings
+    var packPath = $"./src/FsDistanceField/nupkg/FsDistanceField.{bd.Version}.nupkg";
+    Information($"Publishing package: {packPath}");
+    DotNetNuGetPush(packPath, new()
     {
             ApiKey = nugetApiKey,
             Source = nugetApi
     });
 });
 
-Task("DoYouGitIt")
-    .Does(context =>
-{
-    var tip = GitLogTip(".");
-    var tags = GitTags(".", true);
-    var tipTag = tags
-        .FirstOrDefault(tag => tag.Target.Sha == tip.Sha)
-        ;
-    if (tipTag is not null)
-    {
-        var tagName = tipTag.FriendlyName;
-        var match   = Regex.Match(tagName, @"^v(?<version>\d+\.\d+\.\d+)$");
-        if (match.Success)
-        {
-            var version = match.Groups["version"].Value;
-            Console.WriteLine($"Tip is tagged with version: {version}");
-        }
-        else
-        {
-            Console.WriteLine($"Tip is tagged, but the tag doesn't match the version schema: {tagName}");
-        }
-    }
-    else
-    {
-        Console.WriteLine("Tip is not tagged");
-    }
-});
+Task("GithubAction")
+    .IsDependentOn("PublishToNuGet")
+    ;
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

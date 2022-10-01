@@ -16,4 +16,4 @@ jobs:
     - name: Run the build script
       uses: cake-build/cake-action@v1
       with:
-        target: Test
+        target: GithubAction
