@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.32916.344
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FsDistanceField", "FsDistanceField\FsDistanceField.fsproj", "{515B64A3-A09B-48BD-BC58-C972FE2F687E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{515B64A3-A09B-48BD-BC58-C972FE2F687E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{515B64A3-A09B-48BD-BC58-C972FE2F687E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{515B64A3-A09B-48BD-BC58-C972FE2F687E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{515B64A3-A09B-48BD-BC58-C972FE2F687E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7EF93A5E-5D81-45DB-AF98-5BF79894677A}
+	EndGlobalSection
+EndGlobal
