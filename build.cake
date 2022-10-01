@@ -1,3 +1,7 @@
+#addin nuget:?package=Cake.Git&version=2.0.0
+
+using System.Text.RegularExpressions;
+
 var target        = Argument("target", "Test");
 var configuration = Argument("configuration", "Release");
 var slnPath       = "./src/FsDistanceField.sln";
@@ -63,6 +67,34 @@ Task("PublishToNuGet")
             ApiKey = nugetApiKey,
             Source = nugetApi
     });
+});
+
+Task("DoYouGitIt")
+    .Does(context =>
+{
+    var tip = GitLogTip(".");
+    var tags = GitTags(".", true);
+    var tipTag = tags
+        .FirstOrDefault(tag => tag.Target.Sha == tip.Sha)
+        ;
+    if (tipTag is not null)
+    {
+        var tagName = tipTag.FriendlyName;
+        var match   = Regex.Match(tagName, @"^v(?<version>\d+\.\d+\.\d+)$");
+        if (match.Success)
+        {
+            var version = match.Groups["version"].Value;
+            Console.WriteLine($"Tip is tagged with version: {version}");
+        }
+        else
+        {
+            Console.WriteLine($"Tip is tagged, but the tag doesn't match the version schema: {tagName}");
+        }
+    }
+    else
+    {
+        Console.WriteLine("Tip is not tagged");
+    }
 });
 
 //////////////////////////////////////////////////////////////////////
