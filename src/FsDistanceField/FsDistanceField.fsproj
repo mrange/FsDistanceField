@@ -6,7 +6,12 @@
     <WarningsAsErrors>true</WarningsAsErrors>
     <!-- Restore options -->
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    <RestoreLockedMode>true</RestoreLockedMode>
+    <!--
+    Currently not working as the build server running .NET6 and my local
+    machines runs .NET7 preview causes a version mismatch on FSharp.Core.
+    Not sure why.
+    -->
+    <!--<RestoreLockedMode>true</RestoreLockedMode>-->
     <!-- Nuget options -->
     <PackageId>FsDistanceField</PackageId>
     <Copyright>Copyright (c) Mårten Rånge</Copyright>
