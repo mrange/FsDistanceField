@@ -20,7 +20,7 @@
     <RepositoryUrl>https://github.com/mrange/FsDistanceField</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Tool;Shader</PackageTags>
-    <PackageVersion>0.0.1</PackageVersion>
+    <PackageVersion>0.0.2</PackageVersion>
     <Title>Tool to create distance fields from an image</Title>
     <Description>
       This is a tool that allows users to create a distance field PNG from an input image.
