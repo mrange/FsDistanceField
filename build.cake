@@ -36,6 +36,17 @@ Task("Test")
     });
 });
 
+Task("Pack")
+    .IsDependentOn("Test")
+    .Does(() =>
+{
+    DotNetPack(slnPath, new DotNetPackSettings
+    {
+        Configuration = configuration,
+        NoBuild = true,
+    });
+});
+
 //////////////////////////////////////////////////////////////////////
 // EXECUTION
 //////////////////////////////////////////////////////////////////////

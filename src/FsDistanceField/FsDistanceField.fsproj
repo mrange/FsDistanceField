@@ -4,7 +4,27 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <WarningsAsErrors>true</WarningsAsErrors>
+    <!-- Restore options -->
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestoreLockedMode>true</RestoreLockedMode>
+    <!-- Nuget options -->
+    <PackageId>FsDistanceField</PackageId>
+    <Copyright>Copyright (c) Mårten Rånge</Copyright>
+    <Authors>Mårten Rånge</Authors>
+    <PackageLicenseExpression>BSD-2-Clause</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/mrange/FsDistanceField</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Tool;Shader</PackageTags>
+    <PackageVersion>0.0.1</PackageVersion>
+    <Title>Tool to create distance fields from an image</Title>
+    <Description>
+      This is a tool that allows users to create a distance field PNG from an input image.
+      The tool only looks at the transparency (alpha) channel.
+    </Description>
+    <!-- Pack options -->
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>create-distance-field</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
