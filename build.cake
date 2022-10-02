@@ -81,12 +81,11 @@ Task("Test")
 });
 
 Task("Pack")
-    .WithCriteria<BuildData>((ctx, bd) => bd.Version is not null)
     .IsDependentOn("Test")
     .Does<BuildData>((ctx, bd) =>
 {
     var bs = new DotNetMSBuildSettings()
-        .SetVersion(bd.Version)
+        .SetVersion(bd.Version??"0.0.1")
         ;
 
     DotNetPack(slnPath, new()
