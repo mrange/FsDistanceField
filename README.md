@@ -3,6 +3,31 @@ Computes a distance field PNG from an input image.
 
 Distance fields are commonly used in shader world where it can be used to create decals and other graphics that dont' get blurry upon scaling and support things like drop shadow, inner glow, outer glow and so on "for free".
 
+## Install
+
+```bash
+# Install the tool globally
+dotnet tool install -g FsDistanceField
+# Print the help
+create-distance-field --help
+# Should respond with this
+# Description:
+#   Computes a distance field image from an input image
+#
+# Usage:
+#   create-distance-field [options]
+#
+# Options:
+#   --version                         Show version information
+#   -?, -h, --help                    Show help and usage information
+#   -i, --input <input> (REQUIRED)    Input image file to compute distance field for
+#   -o, --output <output> (REQUIRED)  Output PNG file to for the distance field
+#   -r, --radius <radius>             Radius of distance field in pixels [default: 32]
+#   -c, --cutoff <cutoff>             Cutoff of distance field [default: 0.25]
+#   -p, --padding <padding>           Padding applied to distance field image [default: 0]
+#   -y, --overwrite                   Overwrite existing file [default: False]
+```
+
 ## Build & Run
 
 ```bash
