@@ -259,7 +259,7 @@ let main args =
   let overwrite   = Input.Option<bool>              ([|"-y"; "--overwrite"|], false , "Overwrite existing file"                 )
 
   rootCommand args {
-    description "Computes a distance field image from an input image"
+    description "Computes a distance field image from an input image\nSee https://github.com/mrange/FsDistanceField#licensed-software to see licensed software used by this tool."
     inputs      (inputFile, outputFile, radius, cutoff, padding, overwrite)
     setHandler  computeDistanceField
   }

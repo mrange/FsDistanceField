@@ -30,10 +30,16 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>create-distance-field</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/mrange/FsDistanceField</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="packages.lock.json" />
+    <None Include="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="packages.lock.json" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 

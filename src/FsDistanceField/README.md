@@ -1,4 +1,4 @@
-# FsDistanceField
+﻿# FsDistanceField
 Computes a distance field PNG from an input image.
 
 Distance fields are commonly used in shader world where it can be used to create decals and other graphics that dont' get blurry upon scaling and support things like drop shadow, inner glow, outer glow and so on "for free".
@@ -26,16 +26,6 @@ create-distance-field --help
 #   -c, --cutoff <cutoff>             Cutoff of distance field [default: 0.25]
 #   -p, --padding <padding>           Padding applied to distance field image [default: 0]
 #   -y, --overwrite                   Overwrite existing file [default: False]
-```
-
-## Build & Run
-
-```bash
-cd src/FsDistanceField
-# Print help screen
-dotnet run -- -h
-# Generate blazor distance field
-dotnet run -c Release -- -i ../../assets/Blazor.png -o ../../assets/Blazor_distance.png -r 200 -c 0.5 -y true
 ```
 
 ## Licensed software
