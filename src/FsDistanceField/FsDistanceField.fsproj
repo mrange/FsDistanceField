@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>create-distance-field</AssemblyName>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <WarningsAsErrors>true</WarningsAsErrors>
     <!-- Restore options -->
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
@@ -51,8 +51,8 @@
   <ItemGroup />
 
   <ItemGroup>
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" />
-    <PackageReference Include="FSharp.SystemCommandLine" Version="0.13.0-beta4" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
+    <PackageReference Include="FSharp.SystemCommandLine" Version="0.17.0-beta4" />
   </ItemGroup>
 
 </Project>
